@@ -1,8 +1,8 @@
-# Cybersecurity : CSN150
+# Cybersecurity : CSN150 
 
 ## Name of Project
 
-ESP32 Introduction: Blink
+ESP32 Introduction: Blink (by Ishmael Nyann)
 
 ## Purpose
 
