@@ -1,34 +1,61 @@
 # Cybersecurity : CSN150
-Project: ESP32 XXXXXXXX
+
+## Name of Project
+
+ESP32 Introduction: Blink
 
 ## Purpose
-Set up ESP32 and Arduino enviornment. Execute sketch " Wifiscanner". 
+
+Set up the ESP32-CAM and Arduino environment. Upload and run the Blink sketch, then change the delay to make the LED blink faster and slower.
 
 ## Equipment
-* [ESP32Cam](https://www.amazon.com/Aideepen-ESP32-CAM-Bluetooth-ESP32-CAM-MB-Arduino/dp/B08P2578LV/ref=sr_1_3?crid=4FY0ECFW0ZX7&keywords=ESP32+Cam&qid=1678902050&sprefix=esp32+cam%2Caps%2C240&sr=8-3)
 
-* [USB Micro Data Cable](https://www.amazon.com/AmazonBasics-Male-Micro-Cable-Black/dp/B0711PVX6Z/ref=sr_1_1_sspa?keywords=micro+usb+data+cable&qid=1678902214&sprefix=Micro+USB+data+%2Caps%2C89&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFaU0NaUVZHU1RFUlAmZW5jcnlwdGVkSWQ9QTA3NTA4MDVFVERCS01HVlgxM1YmZW5jcnlwdGVkQWRJZD1BMDE4NTE1NTIwWUdONkdWSzU1M1Amd2lkZ2V0TmFtZT1zcF9hdGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl)
+* ESP32-CAM (AI Thinker) with ESP32-CAM-MB programmer board
+* USB Micro Data Cable
+* MacBook (Apple Silicon)
 
 ## Links to documentation and tools
 
-##### Video 1: 
+**Video 1:** CSN150 Install Arduino MAC OS (Prof. Edwin)
 
-##### Other Links: 
+**Other Links:**
+* Arduino IDE: https://www.arduino.cc/en/software/
+* ESP32 setup guide: https://lastminuteengineers.com/esp32-arduino-ide-tutorial/
+* Boards Manager URL: https://espressif.github.io/arduino-esp32/package_esp32_index.json
 
-##### AI GPTs used
+**AI GPTs used:** Claude
 
 ## Steps I followed
-1. Write the steps you followed here.  This way you can keep track of where you might have messed up if the project does not work. 
+
+1. Installed Arduino IDE 2.3.10 for macOS.
+2. Identified my board as an ESP32-CAM with the ESP32-CAM-MB board, which uses the CH340 USB chip.
+3. Plugged in the board. The red power light turned on, and it showed up in Arduino IDE as `/dev/cu.usbserial-210`.
+4. Added the ESP32 Boards Manager URL in Arduino IDE → Settings.
+5. Installed "esp32 by Espressif Systems" (version 3.3.12) in the Boards Manager.
+6. Selected "AI Thinker ESP32-CAM" as the board and `/dev/cu.usbserial-210` as the port.
+7. Wrote the Blink sketch using GPIO 4 (the white flash LED).
+8. Installed Rosetta through Terminal to fix a compile error (see Problems and Solutions).
+9. Uploaded the sketch. The LED blinked on for 1 second and off for 1 second.
+10. Changed the delay to 200 (faster) and 2000 (slower), uploading each version.
 
 ## Problems and Solutions
-Note your problems or errors here.  Google any error you may come across, and not what you tried (even if it does not work), and what was the final answer. Document your errors and solutions that worked for you.  
 
-**Problem:** E (485) camera: Camera probe failed with error 0x105(ESP_ERR_NOT_FOUND)
-Camera init failed with error 0x105
-**Solution:**
+**Problem:** I didn't know which driver my board needed (CP210x or CH340x). **Solution:** The ESP32-CAM-MB board uses the CH340 chip, so it needs the CH340 driver.
 
-### Example Problem
-**Problem:** Arduino code will not load on ESP32 Cam.
-**Solution:** Camera drivers were incorrect I needed to install the driver: [https://www.wch-ic.com/downloads/CH341SER_ZIP.html](https://github.com/martin-ger/esp32_nat_router).  I used file, "CH341SER.ZIP" and it worked.
+**Problem:** I downloaded CH341SER, but it was the Windows version (.sys, .dll, SETUP.EXE files). **Solution:** I didn't need it. macOS already supports CH340, and the board appeared as `/dev/cu.usbserial-210`.
+
+**Problem:** The board showed as "Unknown" and the search said "No boards found for ESP32-CAM". **Solution:** The ESP32 package wasn't installed. I added the Boards Manager URL and installed "esp32 by Espressif Systems".
+
+**Problem:** Compilation error: `fork/exec .../ctags: bad CPU type in executable`. **Solution:** My Mac has an Apple Silicon chip, and this Arduino tool is built for Intel Macs. I installed Rosetta 2, which lets Apple Silicon Macs run Intel apps. I opened Terminal (Finder → Go → Utilities → Terminal) and ran:
+
+    softwareupdate --install-rosetta --agree-to-license
+
+It said "Install of Rosetta 2 finished successfully." I quit and reopened Arduino IDE, and the sketch compiled.
+
+**Problem:** "Invalid sketch folder name: 'esp32 blink'". **Solution:** Sketch names can't have spaces. I renamed it `esp32_blink`.
 
 ## Final Report
+
+The `delay()` function controls the blink speed by pausing the program in milliseconds. The first delay sets how long the LED stays on, and the second sets how long it stays off.
+
+To make it blink **faster**, I changed both delays from 1000 to 200, so the LED blinked quickly. To make it blink **slower**, I changed both to 2000, so the light stayed on longer and went off longer.
